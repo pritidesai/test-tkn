@@ -5,6 +5,7 @@ metadata:
 spec:
   params:
     - name: package
+      type: string
       description: package to release
       default: github.com/jerop/test-tkn
   workspaces:

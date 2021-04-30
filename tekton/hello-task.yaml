@@ -1,13 +1,14 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: greet
+  name: hello-task
 spec:
   params:
     - name: name
+      type: string
       description: who to greet
   steps:
-    - name: greet
+    - name: say-hello
       image: ubuntu
       script: |
-        echo "Hello $(params.Name)"
+        echo "Hello $(params.name)!"

@@ -1,0 +1,45 @@
+name: Run Go Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  run-go-pipeline:
+    name: Run Go Pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: engineerd/setup-kind@v0.5.0
+
+      - run: export KUBECONFIG="$(kind get kubeconfig-path)"
+
+      - run: kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+
+      - uses: jerop/tkn@v0.1.0
+
+      - run: |
+          tkn hub install task git-clone
+          tkn task describe git-clone
+
+      - run: |
+          tkn hub install task golang-test
+          tkn task describe golang-test
+
+      - run: |
+          tkn hub install task golang-build
+          tkn task describe golang-build
+
+      - run: |
+          tkn pipeline start --showlog \
+            -f tekton/go-pipeline.yaml \
+            -p package=github.com/jerop/test-tkn \
+            -w name=workarea,volumeClaimTemplateFile=tekton/workspace.yaml \
+
+      - run: tkn pipelinerun logs -f -L
+      - run: tkn pipelinerun describe -L
