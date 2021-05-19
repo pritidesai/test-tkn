@@ -9,7 +9,7 @@ spec:
       description: who to greet
   tasks:
     - name: say-hello
-      spec:
+      taskSpec:
         steps:
           - name: echo-hello
             image: ubuntu
