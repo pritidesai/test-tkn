@@ -9,6 +9,6 @@ spec:
       description: who to greet
   steps:
     - name: say-hello
-      image: alpine
+      image: ubuntu
       script: |
         echo "Hello $(params.name)!"
