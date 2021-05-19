@@ -9,7 +9,13 @@ spec:
       description: who to greet
   tasks:
     - name: say-hello
+      params:
+        - name: name
+          value: $(params.name)
       taskSpec:
+        params:
+          - name: name
+            default: "GitHub Actions"
         steps:
           - name: echo-hello
             image: ubuntu
