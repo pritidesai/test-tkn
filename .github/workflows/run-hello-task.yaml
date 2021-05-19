@@ -23,10 +23,10 @@ jobs:
 
       - uses: jerop/tkn@v0.1.0
 
-      - run: |
-          tkn pipeline start --showlog \
-            -f tekton/hello-task.yaml \
-            -p name=cdCon \
+      - run: tkn task list
 
-      - run: tkn pipelinerun logs -f -L
-      - run: tkn pipelinerun describe -L
+#          tkn pipeline start --showlog \
+#            -f tekton/hello-task.yaml \
+#            -p name=cdCon \
+#      - run: tkn pipelinerun logs -f -L
+#      - run: tkn pipelinerun describe -L
